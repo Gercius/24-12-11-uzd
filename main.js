@@ -68,7 +68,32 @@ mixBtn.addEventListener("click", () => {
     }
 });
 
+/*  Refs
+    https://stackoverflow.com/questions/72502079/   
+    https://stackoverflow.com/questions/4817029/
+*/
 function isMobileDevice() {
-    const userAgent = navigator.userAgent;
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/.test(userAgent);
+    // User agent string method
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i.test(
+        navigator.userAgent
+    );
+
+    // Screen resolution method
+    if (!isMobile) {
+        let screenWidth = window.screen.width;
+        let screenHeight = window.screen.height;
+        isMobile = screenWidth < 768 || screenHeight < 768;
+    }
+
+    // Primary input mechanism detection method
+    if (!isMobile) {
+        isMobile = window.matchMedia("(pointer: coarse)").matches;
+    }
+
+    // Touch events method
+    if (!isMobile) {
+        isMobile = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    }
+
+    return isMobile;
 }
