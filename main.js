@@ -20,9 +20,11 @@ const images = [
 ];
 const isMobile = isMobileDevice();
 
+// Render images event
 showBtn.addEventListener("click", () => {
     imagesContainer.innerHTML = "";
 
+    // Populate images container
     images.forEach((image, i) => {
         const imagePath = imgsPath + image;
         const imageEl = document.createElement("img");
@@ -30,6 +32,7 @@ showBtn.addEventListener("click", () => {
         imageEl.dataset.nr = i;
         imageEl.classList.add("item");
 
+        // Image swapping event
         // Add single click event if mobile device, since dblclick not working properly on mobiles
         imageEl.addEventListener(isMobile ? "click" : "dblclick", (e) => {
             const currentImg = e.target;
@@ -41,18 +44,23 @@ showBtn.addEventListener("click", () => {
     imagesContainer.style.padding = "1rem";
 });
 
+// Mix images event
 mixBtn.addEventListener("click", () => {
     const imageEls = document.querySelectorAll(".item");
     if (!imageEls.length) return;
 
     const mixedIndexes = mixImageIndexes();
+    // Mix images
     imageEls.forEach((imageEl, i) => {
         imageEl.src = imgsPath + images[mixedIndexes[i]];
     });
 
+    // Return images indexes ordered randomly
     function mixImageIndexes() {
         const indexes = new Set();
 
+        // Generate index values in random manner and add to set until set length === total image count
+        // Already generated values ignored, since set stores only unique values
         while (indexes.size !== imageEls.length) {
             indexes.add(Math.floor(Math.random() * images.length));
         }
